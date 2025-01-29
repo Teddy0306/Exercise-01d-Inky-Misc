@@ -13,49 +13,120 @@ This exercise will demonstrate the following in the example video:
 */
 
 
-VAR time = 0 //  0 Morning, 1 Noon, 2 Night
+VAR time = -1
 
 
 
+-> bedroom
 
--> seashore
+== bedroom ==
+{Your alarm goes off. It's {advance_time()}. You have to leave for work in an hour.|It's {advance_time()}.}
+*[Go to Work]
+    { 
+    - dressed && breakfast && coffee:
+        ->yippee
+    - dressed && breakfast && not coffee:
+        ->eep
+   -  dressed && not breakfast:
+        ->perish
+    - not dressed:
+        ->fired
+    }
+*[Get Dressed] ->dressed
+*[Eat Breakfast] ->breakfast
+*[Make Coffee] ->coffee
++[Doom Scroll] ->ohno
 
-== seashore ==
-You are sitting on the beach. 
 
-+ [Wait] -> seashore
--> DONE
+== dressed ==
+You get dressed in your favorite outfit. It gives you confidence for the day. 
+{
+    - time >= 3:
+        ->late
+    -else:
+        ->bedroom
+}
 
-== beach2 ==
-This is further down the beach.
 
-+ [Move back up the beach] -> seashore
+== breakfast ==
+You eat a healthy and fulfilling breakfast that gives you energy for the day.
+{
+    - time >= 3:
+        ->late
+    -else:
+        ->bedroom
+}
 
-== shells ==
-You pick up the shells
--> beach2
+
+== coffee ==
+You make a delicious cup of coffee for the day. Sleep won't be taking you today.
+{
+    - time >= 3:
+        ->late
+    -else:
+        ->bedroom
+}
+
+
+== ohno ==
+You decided to play around on your phone for a little bit. It won't take you that much longer to get ready.
+{
+    - time >= 3:
+        ->late
+    -else:
+        ->bedroom
+}
+
+
+== fired ==
+You show up to your very important, very serious business job with no clothes on. You're fired on the spot and are kicked to the streets cold and vulnerable. 
+->DONE
+
+
+== perish ==
+You decide breakfast is for losers and you don't need it. But you forget up that you need to walk 3 hours, uphill, in the snow, and you perish on the way to work.
+->DONE
+
+
+== no_phone ==
+You get to work, but your boss is upset. You forgot your phone and missed a text from them asking for coffee. They cannot handle being ignored and fire you on the spot.
+->DONE
+
+
+== eep ==
+You make it to work, but without your coffee, you fall alseep at your desk. You wake up in the middle of the night. Everyone is gone and the whole office is cleared out. Your boss moved everyone to a different building while you were alseep just to fuck with you. You never found your boss or our coworkers ever again.
+->DONE
+
+
+== yippee ==
+You get to work safe and sound. Your boss is impressed with you that he gives you a promotion. Yippee! Now do it again.
+->DONE
+
+
+== late ==
+You look at the time and realize you're going to be late for work. You went back. 
+Not because you were fired, you just couldn't handle the shame and could never show your face there again.
+->DONE
+
 
 == function advance_time ==
 
     ~ time = time + 1
     
-    {
-        - time > 2:
-            ~ time = 0
-    }    
-    /*
+
     {    
         - time == 0:
-            ~ return "Morning"
+            ~ return "9:00"
         
         - time == 1:
-            ~ return "Noon"
+            ~ return "9:15"
         
         - time == 2:
-            ~ return "Night"
-    
+            ~ return "9:30"
+            
+        - time == 3:
+            ~ return "9:45"
     }
-    */
     
         
     ~ return time
